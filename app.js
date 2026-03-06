@@ -1,36 +1,53 @@
 const entryBox = document.getElementById("diaryEntry")
 const saveBtn = document.getElementById("saveBtn")
+const entriesDiv = document.getElementById("entries")
 
-function getTodayKey(){
+function loadEntries(){
 
-let today = new Date()
+let entries = JSON.parse(localStorage.getItem("habitarium_entries")) || []
 
-return today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate()
+entriesDiv.innerHTML = ""
 
-}
+entries.reverse().forEach(entry => {
 
-function loadTodayEntry(){
+let div = document.createElement("div")
 
-let key = getTodayKey()
+div.className = "entry"
 
-let saved = localStorage.getItem("habitarium_"+key)
+div.innerHTML = `
+<h3>${entry.date}</h3>
+<p>${entry.text}</p>
+`
 
-if(saved){
+entriesDiv.appendChild(div)
 
-entryBox.value = saved
-
-}
+})
 
 }
 
 saveBtn.addEventListener("click",()=>{
 
-let key = getTodayKey()
+let text = entryBox.value.trim()
 
-localStorage.setItem("habitarium_"+key,entryBox.value)
+if(text === "") return
 
-alert("Entry saved for today!")
+let entries = JSON.parse(localStorage.getItem("habitarium_entries")) || []
+
+let today = new Date()
+
+let dateString = today.toLocaleString()
+
+entries.push({
+date: dateString,
+text: text
+})
+
+localStorage.setItem("habitarium_entries",JSON.stringify(entries))
+
+entryBox.value=""
+
+loadEntries()
 
 })
 
-loadTodayEntry()
+loadEntries()

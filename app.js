@@ -1,53 +1,28 @@
-const entryBox = document.getElementById("diaryEntry")
-const saveBtn = document.getElementById("saveBtn")
-const entriesDiv = document.getElementById("entries")
+const greetings = [
+"Hello dreamer 🌙",
+"Welcome back warrior ⚔️",
+"Hey legend ✨",
+"Nice to see you again 💫",
+"Ready to grow today?"
+];
 
-function loadEntries(){
+let greeting = greetings[Math.floor(Math.random()*greetings.length)];
 
-let entries = JSON.parse(localStorage.getItem("habitarium_entries")) || []
+document.getElementById("greeting").innerText = greeting;
 
-entriesDiv.innerHTML = ""
+const saveBtn = document.getElementById("saveBtn");
 
-entries.reverse().forEach(entry => {
+saveBtn.onclick = function(){
 
-let div = document.createElement("div")
+let entry = document.getElementById("diaryEntry").value;
 
-div.className = "entry"
+if(entry === "") return;
 
-div.innerHTML = `
-<h3>${entry.date}</h3>
-<p>${entry.text}</p>
-`
+let div = document.createElement("div");
+div.innerText = entry;
 
-entriesDiv.appendChild(div)
+document.getElementById("entries").appendChild(div);
 
-})
+document.getElementById("diaryEntry").value = "";
 
 }
-
-saveBtn.addEventListener("click",()=>{
-
-let text = entryBox.value.trim()
-
-if(text === "") return
-
-let entries = JSON.parse(localStorage.getItem("habitarium_entries")) || []
-
-let today = new Date()
-
-let dateString = today.toLocaleString()
-
-entries.push({
-date: dateString,
-text: text
-})
-
-localStorage.setItem("habitarium_entries",JSON.stringify(entries))
-
-entryBox.value=""
-
-loadEntries()
-
-})
-
-loadEntries()

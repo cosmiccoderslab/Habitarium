@@ -139,19 +139,7 @@ color:black;
 font-weight:bold;
 }
 
-#bgCanvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
 
-background:linear-gradient(
-180deg,
-#0f172a,
-#0a1f2e,
-#062b2c
-);
-}
 
 body{
 font-family:'Poppins',sans-serif;
